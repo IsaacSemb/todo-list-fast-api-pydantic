@@ -1,4 +1,5 @@
-import os, json
+import os
+import json
 from typing import List
 from models import ToDo
 
