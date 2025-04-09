@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get('/')
 def home():
-    return {'message': 'fastAPI first trial!'}
+    return {'message': 'Welcome to fastAPI!'}
 
 
 # run the server with 
