@@ -1,7 +1,7 @@
 # FastAPI TODO API
 
 A simple CRUD API built with FastAPI + Pydantic.
-This was for Leearning purposes
+This was for Learning purposes
 
 ## How to Run
 ```bash
