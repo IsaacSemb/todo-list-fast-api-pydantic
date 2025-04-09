@@ -1,0 +1,25 @@
+<mxfile host="65bd71144e">
+    <diagram id="ywoCDgIlX4-2FMnAfh9U" name="Page-1">
+        <mxGraphModel dx="1625" dy="788" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="5" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;fontSize=20;verticalAlign=top;align=left;spacing=15;" vertex="1" parent="1">
+                    <mxGeometry x="90" y="340" width="800" height="470" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="&lt;font&gt;Pydantic is used for&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;data validation&lt;/span&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;font&gt;for data thats coming from a user&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;from the front end&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=light-dark(#fa6800, #6b5343);fontColor=light-dark(#000000, #ffffff);strokeColor=#C73500;fontSize=20;verticalAlign=top;align=left;spacing=15;" vertex="1" parent="1">
+                    <mxGeometry x="50" y="60" width="350" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="sample box" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;fontSize=20;verticalAlign=top;align=left;spacing=15;" vertex="1" parent="1">
+                    <mxGeometry x="590" y="100" width="270" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="BUILDING A SIMPLE TODO APP" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;strokeColor=#2D7600;fontSize=20;verticalAlign=top;align=left;spacing=15;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="350" width="350" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="A ToDo&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- title of the todo&lt;/div&gt;&lt;div&gt;- description of the todo&lt;/div&gt;&lt;div&gt;- time it was made&lt;/div&gt;&lt;div&gt;- expected completion time&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;strokeColor=#2D7600;fontSize=20;verticalAlign=top;align=left;spacing=15;fontColor=#ffffff;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="440" width="370" height="220" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
