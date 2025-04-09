@@ -1,2 +1,5 @@
 .venv
 helper.txt
+__pycache__
+
+*.pyc
