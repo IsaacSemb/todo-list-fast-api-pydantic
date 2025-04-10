@@ -44,3 +44,8 @@ def create_todo( todo: ToDoCreate ):
     save_todos(todos)
     
     return new_todo_item
+
+@app.get('/todos', response_model=List[ToDo])
+def get_all_todos():
+    return load_todos()
+
