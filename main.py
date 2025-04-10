@@ -64,14 +64,19 @@ def get_todo(todo_id: int):
     raise HTTPException(status_code=404, detail='ToDo not found')
 
 
-@app.delete('/todos/{todo_id}', response_model=ToDo)
+@app.delete('/todos/{todo_id}')
 def delete_todo(todo_id: int):
-    pass
+    todos = load_todos()
+    for todo in todos:
+        if todo.id == todo_id:
+            todos.remove(todo)
+            save_todos(todos)
+            return {'message':"ToDo Deleted", 'details': todo }
+    raise HTTPException(status_code=404, detail='ToDo not found')
 
 @app.put('/todos/{todo_id}', response_model=ToDo)
-def update_todo(todo_id: int):
+def update_todo(todo_id: int, todo:ToDo):
     pass
-
 
 
 # TODOS
