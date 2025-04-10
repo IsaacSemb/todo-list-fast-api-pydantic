@@ -9,7 +9,7 @@ from typing import List
 from datetime import datetime
 
 # personal
-from models import ToDoCreate, ToDo
+from models import ToDoCreate, ToDo, ToDoUpdate
 from db_utils import load_todos, save_todos
 
 # create app from fast api
@@ -74,10 +74,35 @@ def delete_todo(todo_id: int):
             return {'message':"ToDo Deleted", 'details': todo }
     raise HTTPException(status_code=404, detail='ToDo not found')
 
-@app.put('/todos/{todo_id}', response_model=ToDo)
-def update_todo(todo_id: int, todo:ToDo):
-    pass
-
+@app.put('/todos/{todo_id}', response_model=None) 
+def update_todo(todo_id: int, todo_update:ToDoUpdate):
+    todos = load_todos()
+    for todo in todos:
+        
+        if todo.id == todo_id: 
+            old_todo = todo
+        
+            if todo_update.title is not None:
+                todo.title = todo_update.title
+        
+            if todo_update.description is not None:
+                todo.description = todo_update.description
+        
+            if todo_update.expected_completion is not None:
+                todo.expected_completion = todo_update.expected_completion
+        
+            if todo_update.status is not None:
+                todo.status = todo_update.status
+        
+            # save changes
+            save_todos(todos)
+        
+            return {
+                'message':'ToDo Updated',
+                'old_todo':old_todo,
+                'new_todo':todo
+            }
+    raise HTTPException(status_code=404, detail='ToDo not found') 
 
 # TODOS
 # Add case-insensitive search or fuzzy matching
@@ -87,3 +112,8 @@ def update_todo(todo_id: int, todo:ToDo):
 # Want to filter only completed / pending?
 # Want to paginate large lists (e.g. ?limit=10&skip=20)?
 # create a frontend with jinja
+
+# i keep seeing repetion in the routes to load the todos
+# loop them and find the id NEED to change that
+# change the update format too many if statements, that cant be optimal what if 100 attributes
+# consider doing a model that changes only status

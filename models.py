@@ -20,3 +20,10 @@ class ToDo(BaseModel):
     created_at: datetime
     expected_completion: Optional[datetime] = None
     status: bool = False 
+
+# a todo model for incomming updates
+class ToDoUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    expected_completion: Optional[datetime] = None
+    status: Optional[bool] = None 
