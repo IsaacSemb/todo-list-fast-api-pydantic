@@ -2,6 +2,7 @@
 # fast api
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from fastapi.exceptions import HTTPException
 
 # python standard library
 from typing import List
@@ -53,9 +54,15 @@ def create_todo( todo: ToDoCreate ):
 def get_all_todos():
     return load_todos()
 
+
 @app.get('/todos/{todo_id}', response_model=ToDo)
 def get_todo(todo_id: int):
-    pass
+    todos = load_todos()
+    for todo in todos:
+        if todo.id == todo_id:
+            return todo
+    raise HTTPException(status_code=404, detail='ToDo not found')
+
 
 @app.delete('/todos/{todo_id}', response_model=ToDo)
 def delete_todo(todo_id: int):
@@ -64,3 +71,14 @@ def delete_todo(todo_id: int):
 @app.put('/todos/{todo_id}', response_model=ToDo)
 def update_todo(todo_id: int):
     pass
+
+
+
+# TODOS
+# Add case-insensitive search or fuzzy matching
+# Add logging instead of print
+# Add caching if reading the file becomes too frequent
+# Want to sort the todos? (e.g. newest first, or by status)
+# Want to filter only completed / pending?
+# Want to paginate large lists (e.g. ?limit=10&skip=20)?
+# create a frontend with jinja
