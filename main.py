@@ -1,8 +1,13 @@
 
+# fast api
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+
+# python standard library
 from typing import List
 from datetime import datetime
 
+# personal
 from models import ToDoCreate, ToDo
 from db_utils import load_todos, save_todos
 
@@ -20,11 +25,10 @@ todos: List[ToDo] = load_todos()
 
 
 # Landing route 
-@app.get('/')
+@app.get('/', response_class=HTMLResponse)
 def home():
     
-    print( load_todos() )
-    
+    return '<h1>Welcome to FastAPI</h1>'
     return { 'message':'Welcome to fastAPI!' }
 
 @app.post('/todos',response_model=ToDo)
@@ -49,3 +53,14 @@ def create_todo( todo: ToDoCreate ):
 def get_all_todos():
     return load_todos()
 
+@app.get('/todos/{todo_id}', response_model=ToDo)
+def get_todo(todo_id: int):
+    pass
+
+@app.delete('/todos/{todo_id}', response_model=ToDo)
+def delete_todo(todo_id: int):
+    pass
+
+@app.put('/todos/{todo_id}', response_model=ToDo)
+def update_todo(todo_id: int):
+    pass
