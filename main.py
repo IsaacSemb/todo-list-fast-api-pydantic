@@ -68,6 +68,7 @@ def get_todo_index_by_todo_id( todo_id: int, todos: List[ToDo] ) -> int:
     raise HTTPException(status_code=404, detail='ToDo Not Found')
 
 
+
 @app.get('/todos', response_model=List[ToDo])
 def get_all_todos():
     return load_todos()
@@ -89,32 +90,31 @@ def delete_todo(todo_id: int):
 @app.put('/todos/{todo_id}', response_model=None) 
 def update_todo(todo_id: int, todo_update:ToDoUpdate):
     todos = load_todos()
-    for todo in todos:
+    target_todo_index: ToDo = get_todo_index_by_todo_id(todo_id,todos)
+    target_todo = todos[target_todo_index]
+    
+    old_todo = target_todo.model_copy(deep=True)
+
+    if todo_update.title is not None:
+        target_todo.title = todo_update.title
+
+    if todo_update.description is not None:
+        target_todo.description = todo_update.description
+
+    if todo_update.expected_completion is not None:
+        target_todo.expected_completion = todo_update.expected_completion
+
+    if todo_update.status is not None:
+        target_todo.status = todo_update.status
+
+    # save changes
+    save_todos(todos)
         
-        if todo.id == todo_id: 
-            old_todo = todo
-        
-            if todo_update.title is not None:
-                todo.title = todo_update.title
-        
-            if todo_update.description is not None:
-                todo.description = todo_update.description
-        
-            if todo_update.expected_completion is not None:
-                todo.expected_completion = todo_update.expected_completion
-        
-            if todo_update.status is not None:
-                todo.status = todo_update.status
-        
-            # save changes
-            save_todos(todos)
-        
-            return {
-                'message':'ToDo Updated',
-                'old_todo':old_todo,
-                'new_todo':todo
-            }
-    raise HTTPException(status_code=404, detail='ToDo not found') 
+    return {
+        'message':'ToDo Updated',
+        'old_todo':old_todo,
+        'new_todo':target_todo
+    }
 
 # TODOS
 # Add case-insensitive search or fuzzy matching
