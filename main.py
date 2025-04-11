@@ -58,6 +58,16 @@ def get_todo_by_id(todo_id: int) -> ToDo:
             return todo
     raise HTTPException(status_code=404, detail='ToDo Not Found')
 
+# helper function to find a todo by its index in entire list
+def get_todo_index_by_todo_id( todo_id: int, todos: List[ToDo] ) -> int:
+    
+    for idx, todo_item in enumerate(todos):
+        if todo_item.id == todo_id:
+            return idx
+    
+    raise HTTPException(status_code=404, detail='ToDo Not Found')
+
+
 @app.get('/todos', response_model=List[ToDo])
 def get_all_todos():
     return load_todos()
@@ -70,14 +80,12 @@ def get_todo(todo_id: int):
 
 @app.delete('/todos/{todo_id}')
 def delete_todo(todo_id: int):
-    todos = load_todos()
-    for todo in todos:
-        if todo.id == todo_id:
-            todos.remove(todo)
-            save_todos(todos)
-            return {'message':"ToDo Deleted", 'details': todo }
-    raise HTTPException(status_code=404, detail='ToDo not found')
-
+    todos_list = load_todos()
+    target_todo_index = get_todo_index_by_todo_id(todo_id=todo_id, todos=todos_list)    
+    deleted_todo = todos_list.pop(target_todo_index)
+    save_todos(todos_list)
+    return {'message':"ToDo Deleted", 'details': deleted_todo }
+    
 @app.put('/todos/{todo_id}', response_model=None) 
 def update_todo(todo_id: int, todo_update:ToDoUpdate):
     todos = load_todos()
