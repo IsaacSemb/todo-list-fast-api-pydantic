@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.exceptions import HTTPException
 
 # python standard library
-from typing import List
+from typing import List, Union
 from datetime import datetime
 
 # personal
@@ -29,8 +29,8 @@ todos: List[ToDo] = load_todos()
 @app.get('/', response_class=HTMLResponse)
 def home():
     
+    # return { 'message':'Welcome to fastAPI!' }
     return '<h1>Welcome to FastAPI</h1>'
-    return { 'message':'Welcome to fastAPI!' }
 
 @app.post('/todos',response_model=ToDo)
 def create_todo( todo: ToDoCreate ):
@@ -50,6 +50,14 @@ def create_todo( todo: ToDoCreate ):
     
     return new_todo_item
 
+# helper function to find a todo
+def get_todo_by_id(todo_id: int) -> ToDo:
+    todos = load_todos()
+    for todo in todos:
+        if todo.id == todo_id:
+            return todo
+    raise HTTPException(status_code=404, detail='ToDo Not Found')
+
 @app.get('/todos', response_model=List[ToDo])
 def get_all_todos():
     return load_todos()
@@ -57,11 +65,7 @@ def get_all_todos():
 
 @app.get('/todos/{todo_id}', response_model=ToDo)
 def get_todo(todo_id: int):
-    todos = load_todos()
-    for todo in todos:
-        if todo.id == todo_id:
-            return todo
-    raise HTTPException(status_code=404, detail='ToDo not found')
+    return get_todo_by_id(todo_id)
 
 
 @app.delete('/todos/{todo_id}')
