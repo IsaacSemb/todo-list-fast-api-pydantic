@@ -10,12 +10,16 @@ from datetime import datetime
 # personal
 from models import ToDoCreate, ToDo, ToDoUpdate
 from db_utils import load_todos, save_todos
-from storage import get_todo_by_id, get_todo_index_by_todo_id
+from routes.todos import router as todos_router
+
 
 # create app from fast api
 # run the server with 
 # uvicorn main:app --reload
 app = FastAPI()
+
+# register routers
+app.include_router(todos_router)
 
 # new list pulls from file
 todos: List[ToDo] = load_todos()
@@ -23,75 +27,9 @@ todos: List[ToDo] = load_todos()
 # Landing route 
 @app.get('/', response_class=HTMLResponse)
 def home():
-    
     # return { 'message':'Welcome to fastAPI!' }
     return '<h1>Welcome to FastAPI</h1>'
 
-@app.post('/todos',response_model=ToDo)
-def create_todo( todo: ToDoCreate ):
-    
-    new_todo_item = ToDo(
-        id = len(todos)+1,
-        title = todo.title,
-        description = todo.description,
-        expected_completion = todo.expected_completion,
-        created_at = datetime.now(),
-        status = False
-    )
-    
-    todos.append(new_todo_item)
-    
-    save_todos(todos)
-    
-    return new_todo_item
-
-@app.get('/todos', response_model=List[ToDo])
-def get_all_todos():
-    return load_todos()
-
-
-@app.get('/todos/{todo_id}', response_model=ToDo)
-def get_todo(todo_id: int):
-    return get_todo_by_id(todo_id)
-
-
-@app.delete('/todos/{todo_id}')
-def delete_todo(todo_id: int):
-    todos_list = load_todos()
-    target_todo_index = get_todo_index_by_todo_id(todo_id=todo_id, todos=todos_list)    
-    deleted_todo = todos_list.pop(target_todo_index)
-    save_todos(todos_list)
-    return {'message':"ToDo Deleted", 'details': deleted_todo }
-    
-@app.put('/todos/{todo_id}', response_model=None) 
-def update_todo(todo_id: int, todo_update:ToDoUpdate):
-    todos = load_todos()
-    target_todo_index: ToDo = get_todo_index_by_todo_id(todo_id,todos)
-    target_todo = todos[target_todo_index]
-    
-    old_todo = target_todo.model_copy(deep=True)
-    
-    # consider putting this in a helper function
-    if todo_update.title is not None:
-        target_todo.title = todo_update.title
-
-    if todo_update.description is not None:
-        target_todo.description = todo_update.description
-
-    if todo_update.expected_completion is not None:
-        target_todo.expected_completion = todo_update.expected_completion
-
-    if todo_update.status is not None:
-        target_todo.status = todo_update.status
-
-    # save changes
-    save_todos(todos)
-        
-    return {
-        'message':'ToDo Updated',
-        'old_todo':old_todo,
-        'new_todo':target_todo
-    }
 
 # TODOS
 # Add case-insensitive search or fuzzy matching

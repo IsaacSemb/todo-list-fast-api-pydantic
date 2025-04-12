@@ -1,8 +1,11 @@
+# python imports
 from typing import List
+
+# personal imports
 from db_utils import load_todos
 from models import ToDo
 
-
+# fast api imports
 from fastapi.exceptions import HTTPException
 
 # helper function to find a todo
