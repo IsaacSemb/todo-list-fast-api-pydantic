@@ -19,6 +19,8 @@ from src.schemas.models import ToDo, ToDoCreate, ToDoUpdate
 # Want to filter only completed / pending?
 # Want to paginate large lists (e.g. ?limit=10&skip=20)?
 # create a frontend with jinja
+    # this is call for making a pluggable API for any front end to use
+#  versioning of the apis 
 
 # i keep seeing repetion in the routes to load the todos
 # loop them and find the id NEED to change that
