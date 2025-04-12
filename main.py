@@ -2,7 +2,6 @@
 # fast api
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from fastapi.exceptions import HTTPException
 
 # python standard library
 from typing import List, Union
@@ -11,19 +10,15 @@ from datetime import datetime
 # personal
 from models import ToDoCreate, ToDo, ToDoUpdate
 from db_utils import load_todos, save_todos
+from storage import get_todo_by_id, get_todo_index_by_todo_id
 
 # create app from fast api
 # run the server with 
 # uvicorn main:app --reload
 app = FastAPI()
 
-
-# temporary database for our todos ( DEPRACATED REAL FAST LOL )
-todos: List[ToDo] = []
-
 # new list pulls from file
 todos: List[ToDo] = load_todos()
-
 
 # Landing route 
 @app.get('/', response_class=HTMLResponse)
@@ -50,25 +45,6 @@ def create_todo( todo: ToDoCreate ):
     
     return new_todo_item
 
-# helper function to find a todo
-def get_todo_by_id(todo_id: int) -> ToDo:
-    todos = load_todos()
-    for todo in todos:
-        if todo.id == todo_id:
-            return todo
-    raise HTTPException(status_code=404, detail='ToDo Not Found')
-
-# helper function to find a todo by its index in entire list
-def get_todo_index_by_todo_id( todo_id: int, todos: List[ToDo] ) -> int:
-    
-    for idx, todo_item in enumerate(todos):
-        if todo_item.id == todo_id:
-            return idx
-    
-    raise HTTPException(status_code=404, detail='ToDo Not Found')
-
-
-
 @app.get('/todos', response_model=List[ToDo])
 def get_all_todos():
     return load_todos()
@@ -94,7 +70,8 @@ def update_todo(todo_id: int, todo_update:ToDoUpdate):
     target_todo = todos[target_todo_index]
     
     old_todo = target_todo.model_copy(deep=True)
-
+    
+    # consider putting this in a helper function
     if todo_update.title is not None:
         target_todo.title = todo_update.title
 
