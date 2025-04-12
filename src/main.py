@@ -1,15 +1,10 @@
-
 # fast api
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
-# python standard library
-from typing import List
 
 # personal
-from models import ToDo
-from file_db import load_todos
-from routes.todos import router as todos_router
+from src.routes.todos import router as todos_router
 
 
 # create app from fast api

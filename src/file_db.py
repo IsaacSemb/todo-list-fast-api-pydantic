@@ -5,12 +5,12 @@ import json
 from typing import List
 
 # personal imports
-from models import ToDo
+from src.schemas.models import ToDo
 
 # fast api imports
 from fastapi.exceptions import HTTPException
 
-TODO_STORAGE_FILE = 'todo_db.json'
+TODO_STORAGE_FILE = '../db/todo_db.json'
 
 
 # to write todos to file db
@@ -28,6 +28,7 @@ def load_todos() -> List[ToDo]:
 
     # check if the storage exists
     if not os.path.exists(TODO_STORAGE_FILE):
+        print('\nhereeee\n')
         return []
 
     with open(TODO_STORAGE_FILE, 'r') as f:
