@@ -25,7 +25,7 @@ app.include_router(todos_router)
 todos: List[ToDo] = load_todos()
 
 # Landing route 
-@app.get('/', response_class=HTMLResponse)
+@app.get('/', response_class=HTMLResponse) 
 def home():
     # return { 'message':'Welcome to fastAPI!' }
     return '<h1>Welcome to FastAPI</h1>'
