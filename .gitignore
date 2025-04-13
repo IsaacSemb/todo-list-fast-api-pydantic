@@ -3,3 +3,4 @@ helper.txt
 __pycache__
 
 *.pyc
+*.bkp
