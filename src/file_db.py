@@ -33,7 +33,7 @@ def load_todos() -> List[ToDo]:
     if not os.path.exists(TODO_STORAGE_FILE):
         return []
 
-    with open(TODO_STORAGE_FILE, 'r') as f:
+    with open(TODO_STORAGE_FILE, 'r', encoding='utf-8') as f:  
 
         try:
             data = json.load(f)
