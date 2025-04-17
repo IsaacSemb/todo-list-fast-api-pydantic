@@ -2,8 +2,7 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
-
-# personal
+# project context imports
 from src.routes.todos import router as todos_router
 
 
@@ -13,7 +12,7 @@ from src.routes.todos import router as todos_router
 app = FastAPI()
 
 # register routers
-app.include_router(todos_router)
+app.include_router(todos_router, prefix='/api', tags=['Todos','semb-todos'] )
 
 
 # Landing route 
