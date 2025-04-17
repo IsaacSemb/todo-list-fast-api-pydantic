@@ -12,11 +12,14 @@ from src.routes.todos import router as todos_router
 app = FastAPI()
 
 # register routers
-app.include_router(todos_router, prefix='/api', tags=['Todos','semb-todos'] )
+app.include_router(todos_router, prefix='/api/v1/todos', tags=['Todos','semb-todos'] )
 
 
 # Landing route 
 @app.get('/', response_class=HTMLResponse) 
 def home():
+    """
+    This endpoint is for testing server health
+    """
     # return { 'message':'Welcome to fastAPI!' }
     return '<h1>Welcome to my FastAPI ToDo API</h1>'
