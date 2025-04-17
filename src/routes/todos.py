@@ -8,7 +8,7 @@ from fastapi import APIRouter
 
 # personal imports
 from src.file_db import load_todos, save_todos, get_todo_by_id, get_todo_index_by_todo_id
-from src.schemas.models import ToDo, ToDoCreate, ToDoUpdate
+from src.schemas.todo_schemas import ToDo, ToDoCreate, ToDoUpdate
 
 
 # TODOS

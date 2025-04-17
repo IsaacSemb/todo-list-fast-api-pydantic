@@ -5,7 +5,7 @@ import json
 from typing import List
 
 # personal imports
-from src.schemas.models import ToDo
+from src.schemas.todo_schemas import ToDo
 
 # fast api imports
 from fastapi.exceptions import HTTPException
