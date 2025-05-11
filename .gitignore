@@ -1,6 +1,12 @@
+# virtual environment
 .venv
-helper.txt
-__pycache__
 
+# cache files 
+__pycache__
 *.pyc
+
+# back up files
 *.bkp
+
+# personal settings
+.vscode

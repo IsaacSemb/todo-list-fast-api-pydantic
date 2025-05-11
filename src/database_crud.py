@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from src.schemas import todo_models, todo_schemas
+from todos import models
+from src.schemas import todo_schemas
 
 
 def create_todo():

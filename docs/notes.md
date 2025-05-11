@@ -1,5 +1,4 @@
 # ALEMBIC COMMANDS
-
 ### Initialising
 - `alembic init alembic`
 
@@ -22,6 +21,13 @@
 
 ### Deleting Last commitgit reset --soft HEAD~1  
 - `git reset --soft HEAD~1`
+
+
+## BRANCHES
+
+### Creating a branch
+- `git checkout -b <branch-name>`
+
 
 
 ### Listing branches  

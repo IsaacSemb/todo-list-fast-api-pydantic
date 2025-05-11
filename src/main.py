@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 # project context imports
-from src.routes.todos import router as todos_router
+from routes.todos_routes import router as todos_router
 
 
 # create app from fast api

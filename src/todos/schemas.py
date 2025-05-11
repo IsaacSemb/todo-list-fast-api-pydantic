@@ -25,4 +25,4 @@ class ToDo(BaseModel):
     description: Optional[str] = None
     created_at: datetime
     expected_completion: Optional[datetime] = None
-    status: bool = False 
+    status: bool = False  
