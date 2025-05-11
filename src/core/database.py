@@ -43,3 +43,14 @@ session = sessionmaker(
 
 Base  = declarative_base()
 
+# test the database by running this direct
+if __name__ == '__main__':
+    from sqlalchemy import text
+
+    try:
+        with db_engine.connect() as connection:
+            result = connection.execute(text('SELECT 1'))
+            print("connection sucessful:", result.scalar())
+    except Exception as e:
+        print("connection failed: ", e)
+    

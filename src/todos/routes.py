@@ -1,13 +1,14 @@
 
 # python imports
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 # fastapi imports
 from fastapi import APIRouter
 
 # personal imports
-from src.schemas.todo_schemas import ToDo, ToDoCreate, ToDoUpdate
+from todos.schemas import ToDo, ToDoCreate, ToDoUpdate
+
 
 
 # TODOS
@@ -30,36 +31,30 @@ from src.schemas.todo_schemas import ToDo, ToDoCreate, ToDoUpdate
 router = APIRouter()
 
 # Create a new todo Item
-# @router.post('/',response_model=ToDo)
-@router.post('/',response_model=None)
-def create_todo( todo: ToDoCreate ):
-    # return Response("ok")
-    return "ok"
-
-
-# Retrieve all todo Items TODO: Incoperate pagination of some sort
-# @router.get('/', response_model=List[ToDo])
-@router.get('/', response_model=None)
-def get_all_todos():
-    return "ok"
-
+@router.post('/',response_model=ToDo)
+def create_todo( todo: ToDoCreate ) -> ToDoCreate:
+    pass
 
 # Retrieve single todo Item by id
-# @router.get('/{todo_id}', response_model=ToDo)
-@router.get('/{todo_id}', response_model=None)
-def get_todo(todo_id: int):
-    return "ok"
+@router.get('/{todo_id}', response_model=ToDo)
+def get_todo(todo_id: int) -> Optional[ToDo]:
+    pass
+
+# Retrieve all todo Items 
+# TODO: Incoperate pagination of some sort
+@router.get('/', response_model=List[ToDo])
+def list_todos() -> List[ToDo]:
+    pass
+
 
 
 # Updating a Todo Item 
 @router.put('/{todo_id}', response_model=None) 
-def update_todo(todo_id: int, todo_update:ToDoUpdate):
-    return "ok"
- 
-
+def update_todo(todo_id: int, todo_update:ToDoUpdate) -> ToDo:
+    pass
 
 
 # Deleting a todo Item
 @router.delete('/{todo_id}')
-def delete_todo(todo_id: int):
-    return "ok"
+def delete_todo(todo_id: int) -> None:
+    pass
