@@ -9,6 +9,7 @@ from src.routes.todos import router as todos_router
 # create app from fast api
 # run the server with 
 # uvicorn main:app --reload
+# uvicorn src.main:app --reload
 app = FastAPI()
 
 # register routers
