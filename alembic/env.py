@@ -18,10 +18,15 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 
 # from myapp import mymodel
+from config import CONFIG
 from core.database import Base 
 
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
+
+# extracting the application database content for alembic
+config.set_main_option("sqlalchemy.url", CONFIG.DATABASE_URL)
+
 
 # import the meta data from your base class
 target_metadata = Base.metadata
