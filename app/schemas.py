@@ -23,18 +23,22 @@ class ToDoBase(BaseModel):
 # this model is for user entry
 class ToDoCreate(ToDoBase):
     """
-    Schema for creating a new ToDo item. Inherits all fields from ToDoBase.
-    Use this schema when creating a new ToDo entry via API or form submission.
+    Schema for creating a new ToDo item. Inherits all fields from ToDoBase.  
+    Use this schema when creating a new ToDo entry via API or form submission.  
     """
     pass
 
 # a todo model for acceptable incoming updates form the client
-class ToDoUpdate(ToDoBase):
+class ToDoUpdate(BaseModel):
     """
     Schema for updating an existing ToDo item.
-    Inherits all fields from ToDoBase. Use this class to validate and serialize data when updating ToDo entries.
+    All fields are optional to allow partial updates.
     """
-    pass
+    title: Optional[str] = None
+    description: Optional[str] = None
+    expected_completion: Optional[datetime] = None
+    status: Optional[bool] = None
+
 
 
 class ToDoInDB(ToDoBase):
