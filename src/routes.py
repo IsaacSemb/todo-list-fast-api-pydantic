@@ -7,6 +7,7 @@ from typing import List, Optional
 from fastapi import APIRouter
 
 # personal imports
+from todos import crud
 from todos.schemas import ToDo, ToDoCreate, ToDoUpdate
 
 
@@ -33,7 +34,7 @@ router = APIRouter()
 # Create a new todo Item
 @router.post('/',response_model=ToDo)
 def create_todo( todo: ToDoCreate ) -> ToDoCreate:
-    pass
+    crud.create_todo(db, todo)
 
 # Retrieve single todo Item by id
 @router.get('/{todo_id}', response_model=ToDo)

@@ -12,6 +12,10 @@ from routes.todos_routes import router as todos_router
 # uvicorn src.main:app --reload
 app = FastAPI()
 
+# use the base to create the database
+models.Base.metadata.create_all(bind=engine)
+
+
 # register routers
 app.include_router(todos_router, prefix='/api/v1/todos', tags=['Todos'] )
 

@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text
-from core.database import Base
+from database import Base
 
 class Todo(Base):
     

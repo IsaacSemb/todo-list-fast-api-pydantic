@@ -18,7 +18,9 @@ Functions:
 
 
 def create_todo( db: Session, todo: schemas.ToDoCreate ) -> schemas.ToDoCreate:
-    pass
+    
+    # get the object and spread into the initialiser for the todo
+    todo_object = models.Todo(**todo.model_dump())
 
 # Retrieve single todo Item by id
 def get_todo(todo_id: int) -> Optional[schemas.ToDo]:
