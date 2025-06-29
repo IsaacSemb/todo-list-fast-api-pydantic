@@ -3,8 +3,9 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 # project context imports
-from routes.todos_routes import router as todos_router
+from app import models, routes
 
+from app.database import db_engine
 
 # create app from fast api
 # run the server with 
@@ -13,11 +14,11 @@ from routes.todos_routes import router as todos_router
 app = FastAPI()
 
 # use the base to create the database
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=db_engine)
 
 
 # register routers
-app.include_router(todos_router, prefix='/api/v1/todos', tags=['Todos'] )
+app.include_router(routes.router, prefix='/api/v1/todos', tags=['Todos'] )
 
 
 # Landing route 
