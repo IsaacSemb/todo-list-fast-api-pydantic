@@ -4,12 +4,15 @@ from datetime import datetime
 from typing import List, Optional
 
 # fastapi imports
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
+
+# sql alchemy imports
+from sqlalchemy.orm import Session
 
 # personal imports
-from todos import crud
-from todos.schemas import ToDo, ToDoCreate, ToDoUpdate
-
+from app.database import get_db
+from app.schemas import ToDoCreate, ToDoResponse, ToDoUpdate
+from app import models
 
 
 # TODOS
@@ -26,36 +29,63 @@ from todos.schemas import ToDo, ToDoCreate, ToDoUpdate
 # i keep seeing repetion in the routes to load the todos
 # loop them and find the id NEED to change that
 # change the update format too many if statements, that cant be optimal what if 100 attributes
-# consider doing a model that changes only status
+# consider doing a model that changes only status 
 
 
 router = APIRouter()
 
 # Create a new todo Item
-@router.post('/',response_model=ToDo)
-def create_todo( todo: ToDoCreate ) -> ToDoCreate:
-    crud.create_todo(db, todo)
+@router.post('/', response_model=ToDoResponse)
+def create_todo( todo_data: ToDoCreate, db: Session = Depends(get_db) ) -> ToDoCreate:
+    todo_item = models.Todo(**todo_data.model_dump())
+    db.add(todo_item)
+    db.commit()
+    db.refresh(todo_item)
+    return todo_item
+    
 
 # Retrieve single todo Item by id
-@router.get('/{todo_id}', response_model=ToDo)
-def get_todo(todo_id: int) -> Optional[ToDo]:
-    pass
+@router.get('/{todo_id}', response_model=ToDoResponse)
+def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[ToDoResponse]:
+    
+    todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo Item not found")
+    return todo
 
 # Retrieve all todo Items 
-# TODO: Incoperate pagination of some sort
-@router.get('/', response_model=List[ToDo])
-def list_todos() -> List[ToDo]:
-    pass
-
+@router.get('/', response_model=List[ToDoResponse])
+def list_todos(db: Session = Depends(get_db), skip: int = 0, limit: int = 10 ):
+    return db.query(models.Todo).offset(skip).limit(limit).all()
 
 
 # Updating a Todo Item 
-@router.put('/{todo_id}', response_model=None) 
-def update_todo(todo_id: int, todo_update:ToDoUpdate) -> ToDo:
-    pass
+@router.put('/{todo_id}', response_model=ToDoResponse) 
+def update_todo(todo_id: int, todo_update: ToDoUpdate, db: Session = Depends(get_db)) -> Optional[ToDoResponse]:
+    
+    todo_item = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    
+    if not todo_item:
+        raise HTTPException(status_code=404, detail="Todo Item not found")
+
+    update_data = todo_update.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(todo_item, key, value)
+
+    db.commit()
+    db.refresh(todo_item)
+    return todo_item
 
 
 # Deleting a todo Item
-@router.delete('/{todo_id}')
-def delete_todo(todo_id: int) -> None:
-    pass
+@router.delete('/{todo_id}', status_code=204)
+def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> None:
+    
+    todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo Item not found")
+    
+    db.delete(todo)
+    db.commit()
+    return
