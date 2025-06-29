@@ -13,3 +13,6 @@ __pycache__
 
 # environmental variable
 .env
+
+# ignore the database for now
+app.db
