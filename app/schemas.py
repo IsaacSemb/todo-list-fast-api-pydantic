@@ -54,4 +54,5 @@ class ToDoResponse(ToDoInDB):
     Represents the response schema for a ToDo item, inheriting all fields from ToDoInDB.
     This class can be extended to add response-specific fields or documentation in the future.
     """
-    pass 
+    class Config:
+        orm_mode = True 
