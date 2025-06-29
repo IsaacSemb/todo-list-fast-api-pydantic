@@ -34,7 +34,7 @@ DATABASE_URL2 = URL.create(
 )
 
 # in our case we are going to use sqlite that was configured in our settings configuration files so we import it
-from config import CONFIG
+from app.config import CONFIG
 db_engine = create_engine(CONFIG.DATABASE_URL)
 
 SessionLocal = sessionmaker(
@@ -44,6 +44,18 @@ SessionLocal = sessionmaker(
 )
 
 Base  = declarative_base()
+
+def get_db():
+    """
+    This function produces DB instances   
+    then yields control to the caller  
+    and after the caller is done, it close up the db  
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # test the database by running this direct
 if __name__ == '__main__':
