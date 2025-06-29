@@ -33,9 +33,11 @@ DATABASE_URL2 = URL.create(
     database='todo_api'
 )
 
-db_engine = create_engine(DATABASE_URL1)
+# in our case we are going to use sqlite that was configured in our settings configuration files so we import it
+from config import CONFIG
+db_engine = create_engine(CONFIG.DATABASE_URL)
 
-session = sessionmaker(
+SessionLocal = sessionmaker(
     bind=db_engine,
     autocommit=False, # meaning the dev calls the commit rather than auto ( good habit )
     autoflush=False
@@ -45,12 +47,7 @@ Base  = declarative_base()
 
 # test the database by running this direct
 if __name__ == '__main__':
-    from sqlalchemy import text
-
-    try:
-        with db_engine.connect() as connection:
-            result = connection.execute(text('SELECT 1'))
-            print("connection sucessful:", result.scalar())
-    except Exception as e:
-        print("connection failed: ", e)
+    # this is for teating purposes
+    # to test the script
+    pass
     
