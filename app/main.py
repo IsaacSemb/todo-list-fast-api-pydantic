@@ -6,6 +6,7 @@ from fastapi.responses import HTMLResponse
 from app import models, routes
 
 from app.database import db_engine
+from fastapi.responses import RedirectResponse
 
 # create app from fast api
 # run the server with 
@@ -27,5 +28,4 @@ def home():
     """
     This endpoint is for testing server health
     """
-    # return { 'message':'Welcome to fastAPI!' }
-    return '<h1>Welcome to my FastAPI ToDo API</h1>'
+    return RedirectResponse(url="/docs")
