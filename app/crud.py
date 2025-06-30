@@ -1,43 +1,104 @@
+from typing import Optional
 
-from typing import List, Optional
+from fastapi import HTTPException
+from app import models
+from app import schemas
+from app.schemas import ToDoCreate
 from sqlalchemy.orm import Session
-import models, schemas
 
+notes = """
+
+🧠 PERSONAL REVELATION — WHY CRUD LOGIC MUST BE SEPARATE FROM ROUTES
+
+I didn’t fully understand why logic was moved out of FastAPI routes and into a `crud.py` file,
+until I faced a real limitation:
+
+I wanted to insert data into my database directly (e.g., via a script, not by calling an API route).
+But because all my DB logic was embedded inside route functions, I couldn't access it without
+running the entire FastAPI server.
+
+💡 That's when it clicked: keeping logic in `crud.py` makes it reusable — I can call it from:
+   - API routes
+   - CLI scripts
+   - unit tests
+   - startup events
+   - background tasks
+
+Trying to bypass the API made me understand that logic tied to HTTP routes is not reusable logic.
+
+Now I see:
+> ROUTES = glue between the outside world and internal logic  
+> CRUD = the actual logic that can be used anywhere
+
+This is more than a coding style — it's a foundation for maintainable, testable software.
+
+
+🧠 TECHNICAL: WHY THIS crud.py FILE EXISTS
+
+The purpose of this module is to separate business logic (e.g., database operations)
+from the route definitions (i.e., API endpoints).
+
+This achieves several things:
+1. REUSABILITY — The same logic can be reused from:
+   - FastAPI routes
+   - CLI scripts
+   - startup/shutdown events
+   - unit tests
+   - background jobs
+
+2. TESTABILITY — You can write focused unit tests for the logic here
+   without needing to spin up the entire FastAPI app.
+
+3. DECOUPLING — Keeping logic out of route functions avoids tight coupling
+   to the HTTP layer and encourages a cleaner, layered architecture.
+
+4. CLARITY — Routes should just coordinate the flow: 
+   receive input → call logic (from crud) → return result.
+
+TL;DR:
+Don’t put logic in your routes — put it here. Routes should delegate, not operate.
 """
-This module contains the actual CRUD (Create, Read, Update, Delete) functionality 
-for managing todo items. It provides a set of helper functions that are utilized 
-in the API routes to perform operations on todo items, such as creating new todos, 
-retrieving existing ones, updating them, and deleting them.
-Functions:
-- create_todo: Creates a new todo item.
-- get_todo: Retrieves a single todo item by its ID.
-- list_todos: Retrieves all todo items (pagination to be incorporated in the future).
-- update_todo: Updates an existing todo item by its ID.
-- delete_todo: Deletes a todo item by its ID.
-"""
 
+def create_todo( db: Session, todo_data: ToDoCreate ) -> ToDoCreate:
+   todo_item = models.Todo(**todo_data.model_dump())
+   db.add(todo_item)
+   db.commit()
+   db.refresh(todo_item)
+   return todo_item
 
-def create_todo( db: Session, todo: schemas.ToDoCreate ) -> schemas.ToDoCreate:
-    
-    # get the object and spread into the initialiser for the todo
-    todo_object = models.Todo(**todo.model_dump())
+def get_todo( db: Session, todo_id: int ) -> Optional[schemas.ToDoResponse]:
+   todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+   if not todo:
+      raise HTTPException(status_code=404, detail="Todo Item not found")
+   return todo
 
-# Retrieve single todo Item by id
-def get_todo(todo_id: int) -> Optional[schemas.ToDo]:
-    pass
+def list_todos( db: Session, skip: int = 0, limit: int = 10 ):
+   return db.query(models.Todo).offset(skip).limit(limit).all()
 
-# Retrieve all todo Items 
-# TODO: Incoperate pagination of some sort
-def list_todos() -> List[schemas.ToDo]:
-    pass
+def update_todo( db: Session, todo_id: int, todo_update: schemas.ToDoUpdate ) -> Optional[schemas.ToDoResponse]:
+   
+   todo_item = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+   
+   if not todo_item:
+      raise HTTPException(status_code=404, detail="Todo Item not found")
+   
+   update_data = todo_update.model_dump(exclude_unset=True)
+   
+   for key, value in update_data.items():
+      setattr(todo_item, key, value)
+   
+   db.commit()
+   db.refresh(todo_item)
+   
+   return todo_item
 
-
-
-# Updating a Todo Item 
-def update_todo(todo_id: int, todo_update:schemas.ToDoUpdate) -> schemas.ToDo:
-    pass
-
-
-# Deleting a todo Item
-def delete_todo(todo_id: int) -> None:
-    pass
+def delete_todo( db: Session, todo_id: int ) -> Optional[schemas.ToDoResponse]:
+   
+   todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+   
+   if not todo:
+      raise HTTPException(status_code=404, detail="Todo Item not found")
+   
+   db.delete(todo)
+   db.commit()
+   return todo
