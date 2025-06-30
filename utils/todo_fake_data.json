@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "title": "Learn FastAPI",
     "description": "Keep pushing!",
     "created_at": "2025-04-09T20:00:49.528982",
@@ -8,7 +7,6 @@
     "status": false
   },
   {
-    "id": 2,
     "title": "Wake Up",
     "description": "You need to read your books!",
     "created_at": "2025-04-09T20:01:28.009811",
@@ -16,7 +14,6 @@
     "status": false
   },
   {
-    "id": 3,
     "title": "Its saturday baby",
     "description": "Gotta live life!",
     "created_at": "2025-04-12T15:03:53.464546",
@@ -24,7 +21,6 @@
     "status": false
   },
   {
-    "id": 4,
     "title": "Drink Water Bro",
     "description": "Hydrate or diedrate 😅",
     "created_at": "2025-04-13T08:30:00",
@@ -32,7 +28,6 @@
     "status": false
   },
   {
-    "id": 5,
     "title": "Push That Code",
     "description": "FastAPI isn't gonna write itself!",
     "created_at": "2025-04-13T08:45:00",
@@ -40,7 +35,6 @@
     "status": false
   },
   {
-    "id": 6,
     "title": "Stretch Yo Legs",
     "description": "Get up, walk around. You ain't a potato 🥔",
     "created_at": "2025-04-13T09:00:00",
@@ -48,7 +42,6 @@
     "status": false
   },
   {
-    "id": 7,
     "title": "Reflect for 5 Mins",
     "description": "What went well? What needs work?",
     "created_at": "2025-04-13T09:10:00",
@@ -56,7 +49,6 @@
     "status": false
   },
   {
-    "id": 8,
     "title": "Chill Time",
     "description": "You've earned it. Breathe.",
     "created_at": "2025-04-13T09:30:00",
@@ -64,7 +56,6 @@
     "status": false
   },
   {
-    "id": 9,
     "title": "Review PRs",
     "description": "Give feedback and merge the good stuff.",
     "created_at": "2025-04-12T11:00:00",
@@ -72,7 +63,6 @@
     "status": true
   },
   {
-    "id": 10,
     "title": "Write Blog Post",
     "description": "Share that FastAPI wisdom with the world.",
     "created_at": "2025-04-12T14:30:00",
@@ -80,7 +70,6 @@
     "status": false
   },
   {
-    "id": 11,
     "title": "Call Mom",
     "description": "She misses you.",
     "created_at": "2025-04-11T19:00:00",
@@ -88,7 +77,6 @@
     "status": true
   },
   {
-    "id": 12,
     "title": "Clean Desk",
     "description": "Clear space, clear mind.",
     "created_at": "2025-04-13T07:45:00",
@@ -96,7 +84,6 @@
     "status": true
   },
   {
-    "id": 13,
     "title": "Plan the Week",
     "description": "Map it out. Don't wing it.",
     "created_at": "2025-04-13T09:00:00",
@@ -104,7 +91,6 @@
     "status": false
   },
   {
-    "id": 14,
     "title": "Update Resume",
     "description": "Even if you're not job hunting, stay ready.",
     "created_at": "2025-04-13T10:30:00",
@@ -112,7 +98,6 @@
     "status": false
   },
   {
-    "id": 15,
     "title": "Meditate",
     "description": "Just 10 mins. You got this.",
     "created_at": "2025-04-13T11:00:00",
@@ -120,7 +105,6 @@
     "status": true
   },
   {
-    "id": 16,
     "title": "Read 20 Pages",
     "description": "Knowledge ain't gonna jump in your brain.",
     "created_at": "2025-04-13T12:00:00",
@@ -128,7 +112,6 @@
     "status": false
   },
   {
-    "id": 17,
     "title": "Prep Lunch",
     "description": "Fuel up, chef style 🍽️",
     "created_at": "2025-04-13T12:30:00",
@@ -136,7 +119,6 @@
     "status": true
   },
   {
-    "id": 18,
     "title": "Debug That Error",
     "description": "Yeah, the one that’s been haunting you.",
     "created_at": "2025-04-13T13:00:00",
@@ -144,7 +126,6 @@
     "status": false
   },
   {
-    "id": 19,
     "title": "Quick Workout",
     "description": "15 mins. No excuses. Move!",
     "created_at": "2025-04-13T15:15:00",
@@ -152,7 +133,6 @@
     "status": true
   },
   {
-    "id": 20,
     "title": "Wind Down Routine",
     "description": "Low lights, chill music, no screens.",
     "created_at": "2025-04-13T21:00:00",
