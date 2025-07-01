@@ -33,28 +33,139 @@ from app import crud, models
 
 router = APIRouter()
 
+
+
+
+
+
+
+
+
+
+
+
 # Create a new todo Item
-@router.post('/', response_model=schemas.ToDoResponse)
+@router.post(
+    '/', 
+    response_model=schemas.ToDoResponse,
+    summary="Create a new Todo item",
+    description="Creates a new Todo item using the provided data. Returns the created item with its assigned ID."
+    )
 def create_todo( todo_data: schemas.ToDoCreate, db: Session = Depends(get_db) ) -> Any:
+    """
+    Create a new Todo item.
+
+    This delegates the actual creation logic to the CRUD layer,  
+    which handles database insertion and model serialization.
+
+    Args:
+        todo_data (schemas.ToDoCreate): The input payload for the new Todo.  
+        db (Session): Database session dependency.
+
+    Returns:
+        schemas.ToDoResponse: The newly created Todo item.
+    """
     return crud.create_todo( db, todo_data )
 
+
+
 # Retrieve single todo Item by id
-@router.get('/{todo_id}', response_model=schemas.ToDoResponse)
+@router.get(
+    '/{todo_id}',
+    response_model=schemas.ToDoResponse,
+    summary="Get a Todo item by ID",
+    description="Retrieves a specific Todo item by its unique ID. Returns a 404 error if the item does not exist."
+    )
 def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[schemas.ToDoResponse]:
+    """
+    Retrieve a Todo item by its ID.
+
+    This delegates the lookup and error handling to the CRUD layer,  
+    which returns the item or raises a 404 error if not found.
+
+    Args:
+        todo_id (int): The ID of the Todo to retrieve.
+        db (Session): Database session dependency.
+
+    Returns:
+        schemas.ToDoResponse: The requested Todo item.
+    """
     return crud.get_todo( db, todo_id )
 
+
+
 # Retrieve all todo Items 
-@router.get('/', response_model=List[schemas.ToDoResponse])
+@router.get(
+    '/',
+    response_model=List[schemas.ToDoResponse],
+    summary="List all Todo items",
+    description="Retrieves a list of Todo items with optional pagination using 'skip' and 'limit' query parameters."
+    )
 def list_todos(db: Session = Depends(get_db), skip: int = 0, limit: int = 10 ):
+    """
+    List all Todo items with optional pagination.
+
+    This route forwards pagination parameters to the CRUD layer,  
+    which retrieves and returns the relevant Todo records.
+
+    Args:
+        db (Session): Database session dependency.
+        skip (int): Number of records to skip.
+        limit (int): Max number of records to return.
+
+    Returns:
+        List[schemas.ToDoResponse]: A list of Todo items.
+    """
     return crud.list_todos(db, skip, limit)
 
+
+
 # Updating a Todo Item 
-@router.put('/{todo_id}', response_model=schemas.ToDoResponse) 
+@router.put(
+    '/{todo_id}',
+    response_model=schemas.ToDoResponse,
+    summary="Update a Todo item",
+    description="Updates an existing Todo item with the provided fields. Returns the updated item, or 404 if not found."
+    ) 
 def update_todo(todo_id: int, todo_update: schemas.ToDoUpdate, db: Session = Depends(get_db)) -> Optional[schemas.ToDoResponse]:
+    """
+    Update an existing Todo item.
+
+    The update operation is delegated to the CRUD layer,  
+    which handles field updates, validation, and missing record checks.
+
+    Args:
+        todo_id (int): ID of the Todo to update.
+        todo_update (schemas.ToDoUpdate): Fields to be updated.
+        db (Session): Database session dependency.
+
+    Returns:
+        schemas.ToDoResponse: The updated Todo item.
+    """
     return crud.update_todo(db, todo_id, todo_update)
 
+
+
 # Deleting a todo Item
-@router.delete('/{todo_id}')
+@router.delete(
+    '/{todo_id}',
+    response_model=None,
+    summary="Delete a Todo item",
+    description="Deletes the specified Todo item by ID. Returns a 404 error if the item does not exist."
+    )
 def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> Optional[schemas.ToDoResponse]:
+    """
+    Delete a Todo item by ID.
+
+    This route delegates deletion to the CRUD layer,  
+    which removes the item from the database and handles not-found cases.
+
+    Args:
+        todo_id (int): ID of the Todo to delete.
+        db (Session): Database session dependency.
+
+    Returns:
+        None: If successful, the item is deleted. Otherwise, an exception is raised.
+    """
     return crud.delete_todo(db, todo_id)
     
