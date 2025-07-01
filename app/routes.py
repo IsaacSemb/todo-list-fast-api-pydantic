@@ -54,6 +54,7 @@ def update_todo(todo_id: int, todo_update: schemas.ToDoUpdate, db: Session = Dep
     return crud.update_todo(db, todo_id, todo_update)
 
 # Deleting a todo Item
-@router.delete('/{todo_id}', status_code=204)
+@router.delete('/{todo_id}')
 def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> Optional[schemas.ToDoResponse]:
-    return
+    return crud.delete_todo(db, todo_id)
+    
