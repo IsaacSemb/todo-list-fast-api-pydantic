@@ -4,7 +4,9 @@ from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text
 from app.database import Base
 
 def get_current_utc():
-    """Return current UTC datetime with timezone info."""
+    """
+    Return current UTC datetime with timezone info.
+    """
     return datetime.now(timezone.utc)
 
 class Todo(Base):
@@ -19,5 +21,5 @@ class Todo(Base):
     description = Column(Text)
     expected_completion = Column(DateTime, nullable=True)
     status = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=get_current_utc, nullable=False)
-    updated_at = Column(DateTime, default=get_current_utc, onupdate=get_current_utc, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=get_current_utc, nullable=False)
+    updated_at = Column(DateTime(timezone=True), default=get_current_utc, onupdate=get_current_utc, nullable=False)
