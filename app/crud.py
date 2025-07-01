@@ -3,6 +3,7 @@ from typing import Optional
 from fastapi import HTTPException
 from app import models
 from app import schemas
+from app import database
 from app.schemas import ToDoCreate
 from sqlalchemy.orm import Session
 
@@ -101,4 +102,20 @@ def delete_todo( db: Session, todo_id: int ) -> Optional[schemas.ToDoResponse]:
    
    db.delete(todo)
    db.commit()
-   return todo
+   # return todo
+   return
+
+
+# WARNING: TESTING ONLY - DO NOT USE IN PRODUCTION ROUTES
+def create_all_tables(engine):
+   database.Base.metadata.create_all(bind=engine)
+   
+def drop_all_tables(engine):
+   database.Base.metadata.drop_all(bind=engine)
+
+def reset_database(engine):
+   drop_all_tables(engine)
+   create_all_tables(engine)
+
+def clear_all_todos(db):
+   pass
