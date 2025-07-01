@@ -12,7 +12,7 @@ class Todo(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), nullable=False)
     description = Column(Text)
-    expected_completion = Column(DateTime, nullable=True)
+    expected_completion = Column(Integer, nullable=True)  # epoch seconds
     status = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc), nullable=False)
+    created_at = Column(Integer, default=lambda: int(datetime.now(timezone.utc).timestamp()), nullable=False)  # epoch seconds
+    updated_at = Column(Integer, default=lambda: int(datetime.now(timezone.utc).timestamp()), onupdate=lambda: int(datetime.now(timezone.utc).timestamp()), nullable=False)  # epoch seconds
