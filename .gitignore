@@ -16,3 +16,6 @@ __pycache__
 
 # ignore the database for now
 app.db
+
+# personal files
+delete.ipynb
