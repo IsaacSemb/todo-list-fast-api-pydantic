@@ -46,6 +46,8 @@ class User(Base):
     username = sa.Column(sa.String, unique=True, index=True, nullable=False)
     email = sa.Column(sa.String, unique=True, index=True, nullable=False)
     hashed_password = sa.Column(sa.String, nullable=False)
+    created_at = sa.Column(sa.DateTime(timezone=True), default=get_current_utc, nullable=False)
+    updated_at = sa.Column(sa.DateTime(timezone=True), default=get_current_utc, onupdate=get_current_utc, nullable=False)
     
     
     # internal ORM relation between todos and user
