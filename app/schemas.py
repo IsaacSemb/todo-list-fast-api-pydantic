@@ -18,7 +18,8 @@ class ToDoBase(BaseModel):
     title: str
     description: Optional[str] = None
     expected_completion: Optional[datetime] = None
-    status: bool= False 
+    status: bool= False     
+    user_id: int
 
 # this model is for user entry
 class ToDoCreate(ToDoBase):
@@ -50,6 +51,7 @@ class ToDoInDB(ToDoBase):
     id: int
     created_at: datetime
     updated_at: datetime
+    user_id: int
     
 
 # this is a server side model for returning data to the client
