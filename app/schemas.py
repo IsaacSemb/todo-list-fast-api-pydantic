@@ -5,11 +5,12 @@ from typing import Optional
 from datetime import datetime
 
 
+# ================================ TODOS SCHEMAS ========================================
 
-# base model for all other models to use
+# base model for all other todo models to use
 class ToDoBase(BaseModel):
     """
-    Base schema for a ToDo item.
+    Base schema for a ToDo object.
 
     Defines the common fields shared by all ToDo-related models.  
     Other ToDo schemas should inherit from this class to ensure consistency.  
@@ -61,4 +62,59 @@ class ToDoResponse(ToDoInDB):
     This class can be extended to add response-specific fields or documentation in the future.
     """
     class Config:
-        orm_mode = True 
+        orm_mode = True
+
+
+# ================================ USERS SCHEMAS ========================================
+
+
+class UserBase(BaseModel):
+    """
+    Base schema for a user object.
+
+    Defines the common fields shared by all User-related models.  
+    Other user schemas should inherit from this class to ensure consistency.  
+    Only extend or override this base model with clear justification.  
+    """
+    username: str
+    email: str
+
+
+# this model is for user entry
+class UserCreate(UserBase):
+    """
+    Schema for creating a new User object. Inherits all fields from UserBase.  
+    Use this schema when creating a new User entry via API or form submission (sign Up).  
+    """
+    hashed_password: str
+
+# a todo model for acceptable incoming updates form the client
+class UserUpdate(BaseModel):
+    """
+    Schema for updating an existing User item.
+    I HAVENT YET FIGURED OUT IF THE USER SHOULD BE ALLOWED TO CHANGE ANYTHING
+    """
+    pass
+
+
+class UserInDB(UserBase):
+    """
+    This is a system level contract that includes secret fields
+    for keeping track of a User Object like the date of creation and update times  
+    To maintain the integrity of the system   
+    """
+    id: int
+    created_at: datetime
+    updated_at: datetime
+    
+
+
+# this is a server side model for returning data to the client
+class UserResponse(UserBase):
+    """
+    Represents the response schema for a User item, inheriting all fields from UserInDB.
+    This class can be extended to add response-specific fields or documentation in the future.
+    """
+    class Config:
+        orm_mode = True
+
