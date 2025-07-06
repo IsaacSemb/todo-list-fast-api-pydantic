@@ -12,7 +12,8 @@ from sqlalchemy.orm import Session
 # personal imports
 from app.database import get_db
 from app import schemas
-from app import crud, models
+from app import crud
+from app.models import todos
 
 
 # TODOS

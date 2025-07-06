@@ -3,6 +3,8 @@ from pprint import pprint
 import sys
 import os
 
+from app.models import todos
+
 # home directory for this script
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,7 +18,7 @@ print(root_dir)
 if root_dir not in sys.path:
     sys.path.append(root_dir)
 
-from app import database, crud, models, schemas
+from app import database, crud, schemas
 
 def get_json_data(file):
     

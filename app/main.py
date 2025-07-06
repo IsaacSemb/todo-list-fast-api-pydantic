@@ -3,10 +3,12 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 # project context imports
-from app import models, routes
+from app import routes
 
 from app.database import db_engine
 from fastapi.responses import RedirectResponse
+
+from app.models import todos
 
 # create app from fast api
 # run the server with 
@@ -15,7 +17,7 @@ from fastapi.responses import RedirectResponse
 app = FastAPI()
 
 # use the base to create the database
-models.Base.metadata.create_all(bind=db_engine)
+todos.Base.metadata.create_all(bind=db_engine)
 
 
 # register routers
