@@ -1,2 +1,2 @@
-from todos import Todo
-from users import User
+from .todos import Todo
+from .users import User

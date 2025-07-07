@@ -1,11 +1,11 @@
-from todos import (
+from .todos import (
     ToDoCreate,
     ToDoInDB,
     ToDoResponse,
     ToDoUpdate
 )
 
-from users import (
+from .users import (
     UserBase,
     UserCreate,
     UserInDB,
