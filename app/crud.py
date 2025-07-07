@@ -25,9 +25,9 @@ from typing import List, Optional
 
 from fastapi import HTTPException
 from app.models import todos
-from app import schemas
+from app.schemas import todos
 from app import database
-from app.schemas import ToDoCreate
+from app.schemas.todos import ToDoCreate
 from sqlalchemy.orm import Session
 
 notes = """
@@ -104,7 +104,7 @@ def create_todo( db: Session, todo_data: ToDoCreate ) -> ToDoCreate:
 
 
 
-def get_todo( db: Session, todo_id: int ) -> Optional[schemas.ToDoResponse]:
+def get_todo( db: Session, todo_id: int ) -> Optional[todos.ToDoResponse]:
    """
    Retrieve a Todo item by ID.
 
@@ -141,7 +141,7 @@ def list_todos( db: Session, skip: int = 0, limit: int = 10 ):
 
 
 
-def update_todo( db: Session, todo_id: int, todo_update: schemas.ToDoUpdate ) -> Optional[schemas.ToDoResponse]:
+def update_todo( db: Session, todo_id: int, todo_update: todos.ToDoUpdate ) -> Optional[todos.ToDoResponse]:
    """
    Update an existing Todo item.
 
@@ -173,7 +173,7 @@ def update_todo( db: Session, todo_id: int, todo_update: schemas.ToDoUpdate ) ->
 
 
 
-def delete_todo( db: Session, todo_id: int ) -> Optional[schemas.ToDoResponse]:
+def delete_todo( db: Session, todo_id: int ) -> Optional[todos.ToDoResponse]:
    """
    Delete a Todo item from the database.
 

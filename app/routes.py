@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 # personal imports
 from app.database import get_db
-from app import schemas
+from app.schemas import todos
 from app import crud
 from app.models import todos
 
@@ -48,11 +48,11 @@ router = APIRouter()
 # Create a new todo Item
 @router.post(
     '/', 
-    response_model=schemas.ToDoResponse,
+    response_model=todos.ToDoResponse,
     summary="Create a new Todo item",
     description="Creates a new Todo item using the provided data. Returns the created item with its assigned ID."
     )
-def create_todo( todo_data: schemas.ToDoCreate, db: Session = Depends(get_db) ) -> Any:
+def create_todo( todo_data: todos.ToDoCreate, db: Session = Depends(get_db) ) -> Any:
     """
     Create a new Todo item.
 
@@ -73,11 +73,11 @@ def create_todo( todo_data: schemas.ToDoCreate, db: Session = Depends(get_db) ) 
 # Retrieve single todo Item by id
 @router.get(
     '/{todo_id}',
-    response_model=schemas.ToDoResponse,
+    response_model=todos.ToDoResponse,
     summary="Get a Todo item by ID",
     description="Retrieves a specific Todo item by its unique ID. Returns a 404 error if the item does not exist."
     )
-def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[schemas.ToDoResponse]:
+def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[todos.ToDoResponse]:
     """
     Retrieve a Todo item by its ID.
 
@@ -98,7 +98,7 @@ def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[schemas.T
 # Retrieve all todo Items 
 @router.get(
     '/',
-    response_model=List[schemas.ToDoResponse],
+    response_model=List[todos.ToDoResponse],
     summary="List all Todo items",
     description="Retrieves a list of Todo items with optional pagination using 'skip' and 'limit' query parameters."
     )
@@ -124,11 +124,11 @@ def list_todos(db: Session = Depends(get_db), skip: int = 0, limit: int = 10 ):
 # Updating a Todo Item 
 @router.put(
     '/{todo_id}',
-    response_model=schemas.ToDoResponse,
+    response_model=todos.ToDoResponse,
     summary="Update a Todo item",
     description="Updates an existing Todo item with the provided fields. Returns the updated item, or 404 if not found."
     ) 
-def update_todo(todo_id: int, todo_update: schemas.ToDoUpdate, db: Session = Depends(get_db)) -> Optional[schemas.ToDoResponse]:
+def update_todo(todo_id: int, todo_update: todos.ToDoUpdate, db: Session = Depends(get_db)) -> Optional[todos.ToDoResponse]:
     """
     Update an existing Todo item.
 
@@ -154,7 +154,7 @@ def update_todo(todo_id: int, todo_update: schemas.ToDoUpdate, db: Session = Dep
     summary="Delete a Todo item",
     description="Deletes the specified Todo item by ID. Returns a 404 error if the item does not exist."
     )
-def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> Optional[schemas.ToDoResponse]:
+def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> Optional[todos.ToDoResponse]:
     """
     Delete a Todo item by ID.
 

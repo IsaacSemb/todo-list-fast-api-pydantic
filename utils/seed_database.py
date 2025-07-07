@@ -4,6 +4,7 @@ import sys
 import os
 
 from app.models import todos
+from app.schemas import todos
 
 # home directory for this script
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -18,7 +19,7 @@ print(root_dir)
 if root_dir not in sys.path:
     sys.path.append(root_dir)
 
-from app import database, crud, schemas
+from app import database, crud
 
 def get_json_data(file):
     
@@ -62,7 +63,7 @@ def testing_database_reset():
     
     crud.reset_database( engine= database.db_engine )
 
-    sample_todo = schemas.ToDoCreate(**data)
+    sample_todo = todos.ToDoCreate(**data)
     # print(sample_todo)
     crud.create_todo(db, sample_todo)
     
@@ -87,7 +88,7 @@ def insert_many_todos(data = None):
             "status": True
         }
         ]
-    todos = [schemas.ToDoCreate(**item) for item in data]
+    todos = [todos.ToDoCreate(**item) for item in data]
     crud.create_many_todos(db, todos)
 
 insert_many_todos()
