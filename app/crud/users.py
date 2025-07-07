@@ -5,7 +5,7 @@ from app import schemas
 from sqlalchemy.orm import Session
 
 
-def create_user( db: Session, user_data: schemas.UserCreate ) -> schemas.UserCreate:
+def create_user( db: Session, user_data: schemas.UserCreate ) -> schemas.UserInDB:
    """
    Persist a new user object in the database.  
 
@@ -79,7 +79,7 @@ def update_user( db: Session, user_id: int, user_update: schemas.UserUpdate ) ->
    user_object = db.query(models.User).filter(models.User.id == user_id).first()
    
    if not user_object:
-      raise HTTPException(status_code=404, detail="user object not found")
+      raise HTTPException(status_code=404, detail="user not found")
    
    update_data = user_update.model_dump(exclude_unset=True)
    
@@ -110,7 +110,7 @@ def delete_user( db: Session, user_id: int ) -> Optional[schemas.UserResponse]:
    user = db.query(models.User).filter(models.User.id == user_id).first()
    
    if not user:
-      raise HTTPException(status_code=404, detail="user object not found")
+      raise HTTPException(status_code=404, detail="user not found")
    
    db.delete(user)
    db.commit()

@@ -6,6 +6,14 @@ from .todos import (
     delete_todo
 )
 
+from .users import (
+    create_user,
+    get_user,
+    list_users,
+    update_user,
+    delete_user
+)
+
 from app.utils.crud_utils import (
     create_all_tables,
     drop_all_tables,
