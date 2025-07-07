@@ -1,5 +1,5 @@
-from app.database import Base
-from app.models.utils import get_current_utc
+from app.core.database import Base
+from app.utils.model_utils import get_current_utc
 
 
 import sqlalchemy as sa

@@ -1,9 +1,7 @@
-
 import sqlalchemy as sa
 import sqlalchemy.orm as so
-from app.database import Base
-from app.models.utils import get_current_utc
-
+from app.utils.model_utils import get_current_utc
+from app.models import Base 
 class Todo(Base):
     """
     SQLAlchemy ORM model for the todos table.

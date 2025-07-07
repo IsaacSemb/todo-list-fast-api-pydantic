@@ -10,11 +10,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 # personal imports
-from app.database import get_db
-from app.schemas import todos
-from app.crud import todos
-from app.models import todos
-
+from app.core.database import get_db
+from app import crud, schemas
 
 # TODOS
 # Add case-insensitive search or fuzzy matching
@@ -32,16 +29,19 @@ from app.models import todos
 # change the update format too many if statements, that cant be optimal what if 100 attributes
 # consider doing a model that changes only status 
 
+
+# this is a small domain router thats bubbled up to init which bubbles further to main.py
 router = APIRouter()
+
 
 # Create a new todo Item
 @router.post(
     '/', 
-    response_model=todos.ToDoResponse,
+    response_model=schemas.ToDoResponse,
     summary="Create a new Todo item",
     description="Creates a new Todo item using the provided data. Returns the created item with its assigned ID."
     )
-def create_todo( todo_data: todos.ToDoCreate, db: Session = Depends(get_db) ) -> Any:
+def create_todo( todo_data: schemas.ToDoCreate, db: Session = Depends(get_db) ) -> Any:
     """
     Create a new Todo item.
 
@@ -55,18 +55,18 @@ def create_todo( todo_data: todos.ToDoCreate, db: Session = Depends(get_db) ) ->
     Returns:
         schemas.ToDoResponse: The newly created Todo item.
     """
-    return todos.create_todo( db, todo_data )
+    return crud.create_todo( db, todo_data )
 
 
 
 # Retrieve single todo Item by id
 @router.get(
     '/{todo_id}',
-    response_model=todos.ToDoResponse,
+    response_model=schemas.ToDoResponse,
     summary="Get a Todo item by ID",
     description="Retrieves a specific Todo item by its unique ID. Returns a 404 error if the item does not exist."
     )
-def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[todos.ToDoResponse]:
+def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[schemas.ToDoResponse]:
     """
     Retrieve a Todo item by its ID.
 
@@ -80,14 +80,14 @@ def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[todos.ToD
     Returns:
         schemas.ToDoResponse: The requested Todo item.
     """
-    return todos.get_todo( db, todo_id )
+    return crud.get_todo( db, todo_id )
 
 
 
 # Retrieve all todo Items 
 @router.get(
     '/',
-    response_model=List[todos.ToDoResponse],
+    response_model=List[schemas.ToDoResponse],
     summary="List all Todo items",
     description="Retrieves a list of Todo items with optional pagination using 'skip' and 'limit' query parameters."
     )
@@ -106,18 +106,18 @@ def list_todos(db: Session = Depends(get_db), skip: int = 0, limit: int = 10 ):
     Returns:
         List[schemas.ToDoResponse]: A list of Todo items.
     """
-    return todos.list_todos(db, skip, limit)
+    return crud.list_todos(db, skip, limit)
 
 
 
 # Updating a Todo Item 
 @router.put(
     '/{todo_id}',
-    response_model=todos.ToDoResponse,
+    response_model=schemas.ToDoResponse,
     summary="Update a Todo item",
     description="Updates an existing Todo item with the provided fields. Returns the updated item, or 404 if not found."
     ) 
-def update_todo(todo_id: int, todo_update: todos.ToDoUpdate, db: Session = Depends(get_db)) -> Optional[todos.ToDoResponse]:
+def update_todo(todo_id: int, todo_update: schemas.ToDoUpdate, db: Session = Depends(get_db)) -> Optional[schemas.ToDoResponse]:
     """
     Update an existing Todo item.
 
@@ -132,7 +132,7 @@ def update_todo(todo_id: int, todo_update: todos.ToDoUpdate, db: Session = Depen
     Returns:
         schemas.ToDoResponse: The updated Todo item.
     """
-    return todos.update_todo(db, todo_id, todo_update)
+    return crud.update_todo(db, todo_id, todo_update)
 
 
 
@@ -143,7 +143,7 @@ def update_todo(todo_id: int, todo_update: todos.ToDoUpdate, db: Session = Depen
     summary="Delete a Todo item",
     description="Deletes the specified Todo item by ID. Returns a 404 error if the item does not exist."
     )
-def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> Optional[todos.ToDoResponse]:
+def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> Optional[schemas.ToDoResponse]:
     """
     Delete a Todo item by ID.
 
@@ -157,5 +157,5 @@ def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> Optional[todos.T
     Returns:
         None: If successful, the item is deleted. Otherwise, an exception is raised.
     """
-    return todos.delete_todo(db, todo_id)
+    return crud.delete_todo(db, todo_id)
     

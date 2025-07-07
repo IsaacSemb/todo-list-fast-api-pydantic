@@ -1,0 +1,115 @@
+.
+|-- README.md
+|-- app
+|   |               `-- __pycache__
+|   |   |           `-- config.cpython-313.pyc
+|   |               `-- main.cpython-313.pyc
+|   |-- api
+|   |   |           `-- __init__.py
+|   |   |           `-- __pycache__
+|   |   |   |       `-- __init__.cpython-313.pyc
+|   |   |           `-- todos.cpython-313.pyc
+|   |   |-- todos.py
+|   |   `-- users.py
+|   |-- app.db
+|   |-- config.py
+|   |-- core
+|   |   |-- __pycache__
+|   |   |           `-- database.cpython-313.pyc
+|   |   |-- database.py
+|   |   `-- security.py
+|   |-- crud
+|   |   |-- __init__.py
+|   |   |-- __pycache__
+|   |   |           `-- todos.cpython-313.pyc
+|   |   |-- todos.py
+|   |   `-- users.py
+|   |-- main.py
+|   |-- models
+|   |   |-- __init__.py
+|   |   |-- __pycache__
+|   |   |   |       `-- __init__.cpython-313.pyc
+|   |   |   |       `-- todos.cpython-313.pyc
+|   |   |   |       `-- users.cpython-313.pyc
+|   |   |           `-- utils.cpython-313.pyc
+|   |   |-- todos.py
+|   |   `-- users.py
+|   `-- schemas
+|       |-- __init__.py
+|       |-- todos.py
+|       `-- users.py
+|-- delete.ipynb
+|-- docs
+|   |-- excalidraw_maps
+|   |   `-- flow.excalidraw
+|   `-- notes.md
+|-- requirements.txt
+|-- tree.txt
+`-- utils
+    |-- __pycache__
+    |   `-- model_utils.cpython-313.pyc
+    |-- clean_cache_files.py
+    |-- crud_utils.py
+    |-- json_to_csv.py
+    |-- model_utils.py
+    |-- seed_database.py
+    `-- todo_fake_data.json
+
+15 directories, 40 files
+.
+|-- README.md
+|-- app
+|   |               `-- __pycache__
+|   |   |           `-- config.cpython-313.pyc
+|   |               `-- main.cpython-313.pyc
+|   |-- api
+|   |   |           `-- __init__.py
+|   |   |           `-- __pycache__
+|   |   |           `-- __init__.cpython-313.pyc
+|   |   |-- todos.py
+|   |   `-- users.py
+|   |-- app.db
+|   |-- config.py
+|   |-- core
+|   |   |-- __pycache__
+|   |   |           `-- database.cpython-313.pyc
+|   |   |-- database.py
+|   |   `-- security.py
+|   |-- crud
+|   |   |-- __init__.py
+|   |   |-- todos.py
+|   |   `-- users.py
+|   |-- main.py
+|   |-- models
+|   |   |-- __init__.py
+|   |   |-- __pycache__
+|   |   |   |       `-- __init__.cpython-313.pyc
+|   |   |   |       `-- base.cpython-313.pyc
+|   |   |   |       `-- todos.cpython-313.pyc
+|   |   |           `-- users.cpython-313.pyc
+|   |   |-- base.py
+|   |   |-- todos.py
+|   |   `-- users.py
+|   |-- models.py
+|   `-- schemas
+|       |-- __init__.py
+|       |-- todos.py
+|       `-- users.py
+|-- delete.ipynb
+|-- docs
+|   |-- excalidraw_maps
+|   |   `-- flow.excalidraw
+|   `-- notes.md
+|-- requirements.txt
+|-- tree.txt
+`-- utils
+    |-- __pycache__
+    |   `-- model_utils.cpython-313.pyc
+    |-- clean_cache_files.py
+    |-- crud_utils.py
+    |-- json_to_csv.py
+    |-- model_utils.py
+    |-- seed_database.py
+    `-- todo_fake_data.json
+
+14 directories, 40 files

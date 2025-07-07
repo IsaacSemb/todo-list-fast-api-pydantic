@@ -6,7 +6,7 @@ from .todos import (
     delete_todo
 )
 
-from .utils import (
+from app.utils.crud_utils import (
     create_all_tables,
     drop_all_tables,
     reset_table,

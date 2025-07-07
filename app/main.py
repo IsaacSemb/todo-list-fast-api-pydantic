@@ -3,12 +3,13 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 # project context imports
-from app.api import todos
+# from app.api.todos import router as todos_router
 
-from app.database import db_engine
+from app.core.database import db_engine
 from fastapi.responses import RedirectResponse
 
-from app.models import todos
+from app.models import Base
+from app.api import router as api_router
 
 # create app from fast api
 # run the server with 
@@ -17,11 +18,12 @@ from app.models import todos
 app = FastAPI()
 
 # use the base to create the database
-todos.Base.metadata.create_all(bind=db_engine)
+Base.metadata.create_all(bind=db_engine)
 
 
 # register routers
-app.include_router(todos.router, prefix='/api/v1/todos', tags=['Todos'] )
+
+app.include_router(api_router)
 
 
 # Landing route 

@@ -1,4 +1,5 @@
 
+from app.core import database 
 
 # WARNING: TESTING ONLY - DO NOT USE IN PRODUCTION ROUTES
 def create_all_tables(engine):

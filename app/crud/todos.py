@@ -24,9 +24,8 @@ If more complex business logic is needed, consider adding a separate service lay
 from typing import List, Optional
 
 from fastapi import HTTPException
-from app.models import todos
-from app.schemas import todos
-from app import database
+from app import models
+from app import schemas
 from app.schemas.todos import ToDoCreate
 from sqlalchemy.orm import Session
 
@@ -96,7 +95,7 @@ def create_todo( db: Session, todo_data: ToDoCreate ) -> ToDoCreate:
    Returns:
       models.Todo: The created and persisted Todo item.
    """
-   todo_item = todos.Todo(**todo_data.model_dump())
+   todo_item = models.Todo(**todo_data.model_dump())
    db.add(todo_item)
    db.commit()
    db.refresh(todo_item)
@@ -104,7 +103,7 @@ def create_todo( db: Session, todo_data: ToDoCreate ) -> ToDoCreate:
 
 
 
-def get_todo( db: Session, todo_id: int ) -> Optional[todos.ToDoResponse]:
+def get_todo( db: Session, todo_id: int ) -> Optional[schemas.ToDoResponse]:
    """
    Retrieve a Todo item by ID.
 
@@ -118,7 +117,7 @@ def get_todo( db: Session, todo_id: int ) -> Optional[todos.ToDoResponse]:
    Raises:
       HTTPException: If the item is not found.
    """
-   todo = db.query(todos.Todo).filter(todos.Todo.id == todo_id).first()
+   todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
    if not todo:
       raise HTTPException(status_code=404, detail="Todo Item not found")
    return todo
@@ -137,11 +136,11 @@ def list_todos( db: Session, skip: int = 0, limit: int = 10 ):
    Returns:
       List[models.Todo]: List of Todo items.
    """
-   return db.query(todos.Todo).offset(skip).limit(limit).all()
+   return db.query(models.Todo).offset(skip).limit(limit).all()
 
 
 
-def update_todo( db: Session, todo_id: int, todo_update: todos.ToDoUpdate ) -> Optional[todos.ToDoResponse]:
+def update_todo( db: Session, todo_id: int, todo_update: schemas.ToDoUpdate ) -> Optional[schemas.ToDoResponse]:
    """
    Update an existing Todo item.
 
@@ -156,7 +155,7 @@ def update_todo( db: Session, todo_id: int, todo_update: todos.ToDoUpdate ) -> O
    Raises:
       HTTPException: If the item is not found.
    """
-   todo_item = db.query(todos.Todo).filter(todos.Todo.id == todo_id).first()
+   todo_item = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
    
    if not todo_item:
       raise HTTPException(status_code=404, detail="Todo Item not found")
@@ -173,7 +172,7 @@ def update_todo( db: Session, todo_id: int, todo_update: todos.ToDoUpdate ) -> O
 
 
 
-def delete_todo( db: Session, todo_id: int ) -> Optional[todos.ToDoResponse]:
+def delete_todo( db: Session, todo_id: int ) -> Optional[schemas.ToDoResponse]:
    """
    Delete a Todo item from the database.
 
@@ -187,7 +186,7 @@ def delete_todo( db: Session, todo_id: int ) -> Optional[todos.ToDoResponse]:
    Raises:
       HTTPException: If the item is not found.
    """
-   todo = db.query(todos.Todo).filter(todos.Todo.id == todo_id).first()
+   todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
    
    if not todo:
       raise HTTPException(status_code=404, detail="Todo Item not found")
@@ -200,7 +199,7 @@ def delete_todo( db: Session, todo_id: int ) -> Optional[todos.ToDoResponse]:
 
 
 # ========== BULK OPERATIONS FOR MULTIPLE INSERTIONS AND DELETIONS =============
-def create_many_todos(db: Session, todos_data: List[ToDoCreate]) -> List[todos.Todo]:
+def create_many_todos(db: Session, todos_data: List[ToDoCreate]) -> List[models.Todo]:
    """
    Bulk creates multiple todo items in the database.
 
@@ -216,7 +215,7 @@ def create_many_todos(db: Session, todos_data: List[ToDoCreate]) -> List[todos.T
       This operation adds all the todo items to the session, commits the transaction, 
       and refreshes each item to reflect database-generated fields.
    """
-   todo_items = [todos.Todo(**todo.model_dump()) for todo in todos_data]
+   todo_items = [models.Todo(**todo.model_dump()) for todo in todos_data]
    db.add_all(todo_items)
    db.commit()
    
