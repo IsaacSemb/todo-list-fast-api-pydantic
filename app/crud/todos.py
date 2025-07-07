@@ -26,7 +26,6 @@ from typing import List, Optional
 from fastapi import HTTPException
 from app import models
 from app import schemas
-from app.schemas.todos import ToDoCreate
 from sqlalchemy.orm import Session
 
 notes = """
@@ -84,7 +83,7 @@ Don’t put logic in your routes — put it here. Routes should delegate, not op
 
 
 
-def create_todo( db: Session, todo_data: ToDoCreate ) -> ToDoCreate:
+def create_todo( db: Session, todo_data: schemas.ToDoCreate ) -> schemas.ToDoCreate:
    """
    Persist a new Todo item in the database.  
 
@@ -199,7 +198,7 @@ def delete_todo( db: Session, todo_id: int ) -> Optional[schemas.ToDoResponse]:
 
 
 # ========== BULK OPERATIONS FOR MULTIPLE INSERTIONS AND DELETIONS =============
-def create_many_todos(db: Session, todos_data: List[ToDoCreate]) -> List[models.Todo]:
+def create_many_todos(db: Session, todos_data: List[schemas.ToDoCreate]) -> List[models.Todo]:
    """
    Bulk creates multiple todo items in the database.
 
