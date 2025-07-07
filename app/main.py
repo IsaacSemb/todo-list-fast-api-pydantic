@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 # project context imports
-from app import routes
+from app.api import todos
 
 from app.database import db_engine
 from fastapi.responses import RedirectResponse
@@ -21,7 +21,7 @@ todos.Base.metadata.create_all(bind=db_engine)
 
 
 # register routers
-app.include_router(routes.router, prefix='/api/v1/todos', tags=['Todos'] )
+app.include_router(todos.router, prefix='/api/v1/todos', tags=['Todos'] )
 
 
 # Landing route 

@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 # personal imports
 from app.database import get_db
 from app.schemas import todos
-from app import crud
+from app.crud import todos
 from app.models import todos
 
 
@@ -33,17 +33,6 @@ from app.models import todos
 # consider doing a model that changes only status 
 
 router = APIRouter()
-
-
-
-
-
-
-
-
-
-
-
 
 # Create a new todo Item
 @router.post(
@@ -66,7 +55,7 @@ def create_todo( todo_data: todos.ToDoCreate, db: Session = Depends(get_db) ) ->
     Returns:
         schemas.ToDoResponse: The newly created Todo item.
     """
-    return crud.create_todo( db, todo_data )
+    return todos.create_todo( db, todo_data )
 
 
 
@@ -91,7 +80,7 @@ def get_todo(todo_id: int, db: Session = Depends(get_db) ) -> Optional[todos.ToD
     Returns:
         schemas.ToDoResponse: The requested Todo item.
     """
-    return crud.get_todo( db, todo_id )
+    return todos.get_todo( db, todo_id )
 
 
 
@@ -117,7 +106,7 @@ def list_todos(db: Session = Depends(get_db), skip: int = 0, limit: int = 10 ):
     Returns:
         List[schemas.ToDoResponse]: A list of Todo items.
     """
-    return crud.list_todos(db, skip, limit)
+    return todos.list_todos(db, skip, limit)
 
 
 
@@ -143,7 +132,7 @@ def update_todo(todo_id: int, todo_update: todos.ToDoUpdate, db: Session = Depen
     Returns:
         schemas.ToDoResponse: The updated Todo item.
     """
-    return crud.update_todo(db, todo_id, todo_update)
+    return todos.update_todo(db, todo_id, todo_update)
 
 
 
@@ -168,5 +157,5 @@ def delete_todo(todo_id: int, db: Session = Depends(get_db)) -> Optional[todos.T
     Returns:
         None: If successful, the item is deleted. Otherwise, an exception is raised.
     """
-    return crud.delete_todo(db, todo_id)
+    return todos.delete_todo(db, todo_id)
     

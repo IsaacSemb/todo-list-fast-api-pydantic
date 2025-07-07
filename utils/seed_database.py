@@ -3,6 +3,7 @@ from pprint import pprint
 import sys
 import os
 
+from app.crud import todos
 from app.models import todos
 from app.schemas import todos
 
@@ -19,7 +20,7 @@ print(root_dir)
 if root_dir not in sys.path:
     sys.path.append(root_dir)
 
-from app import database, crud
+from app import database
 
 def get_json_data(file):
     
@@ -61,11 +62,11 @@ def testing_database_reset():
             "status": False
             }
     
-    crud.reset_database( engine= database.db_engine )
+    todos.reset_database( engine= database.db_engine )
 
     sample_todo = todos.ToDoCreate(**data)
     # print(sample_todo)
-    crud.create_todo(db, sample_todo)
+    todos.create_todo(db, sample_todo)
     
 
 # testing_database_reset()
@@ -89,10 +90,10 @@ def insert_many_todos(data = None):
         }
         ]
     todos = [todos.ToDoCreate(**item) for item in data]
-    crud.create_many_todos(db, todos)
+    todos.create_many_todos(db, todos)
 
 insert_many_todos()
 
 
 def reset_a_table(table):
-    return crud.reset_table(database.db_engine, table)
+    return todos.reset_table(database.db_engine, table)
