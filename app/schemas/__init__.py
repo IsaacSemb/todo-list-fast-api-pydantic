@@ -14,5 +14,6 @@ from .users import (
 )
 
 from .auth import (
+    LoginInput,
     Token
 )
