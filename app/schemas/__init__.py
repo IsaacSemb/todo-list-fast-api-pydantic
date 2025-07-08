@@ -12,3 +12,7 @@ from .users import (
     UserResponse,
     UserUpdate
 )
+
+from .auth import (
+    Token
+)
