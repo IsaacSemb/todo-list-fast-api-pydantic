@@ -1,3 +1,5 @@
+# type: ignore
+from datetime import timedelta
 from typing import List, Optional
 from fastapi import HTTPException
 from app import models
@@ -44,7 +46,54 @@ def create_user( db: Session, user_data: schemas.UserCreate ) -> schemas.UserInD
 
 
 
+# The get user by id thing devolves into the login and authenticate functions
+# this is a workflow thing that is used in logging in the user into the system
+
+def authenticate_user(email: str, password: str, db: Session):
+   """
+   This is the helper function that check the database for the user  
+   And confirms that the credentials are true  
+   """
+   # get thre user from the db using the entered email
+   user = db.query(models.User).filter(models.User.email == email).first()
+   
+   
+   # here we check 2 things
+   # if the user was a hit or none
+   # if the user  is found, is the password matched
+   if not user or not security.verify_password(password, user.hashed_password):
+      return None
+   return user
+
+
+def login_user(email: str, password: str, db: Session):
+   """
+   
+   This cross checks the credentials of the user  
+   With the DB records and returns a token on success
+   """
+   # call the authenticate helper to help check the user
+   user = authenticate_user(email, password, db)
+   
+   # if the authenticate_user returns None then throw error
+   if not user:
+      raise HTTPException(status_code=401, detail="Invalid credentials")
+   
+   # if user is correct, create an access token for login ease
+   token = security.create_access_token(
+      data={"sub": user.email},
+      expires_in=timedelta(minutes=security.ACCESS_TOKEN_EXPIRE_MINUTES)
+   )
+   return {"access_token": token, "token_type": "bearer"}
+
+
+
+
+#  ============================= THESE CRUD FUNCTION DONT MAKE SENSE FOR USERS ===================================
+
 def get_user( db: Session, user_id: int ) -> Optional[schemas.UserResponse]:
+   # this makes no sense cause getting user by id is weird
+   # unless for admin purposes so ill keep it for the future
    """
    Retrieve a user object by ID.
 
@@ -64,8 +113,8 @@ def get_user( db: Session, user_id: int ) -> Optional[schemas.UserResponse]:
    return user
 
 
-
 def list_users( db: Session, skip: int = 0, limit: int = 10 ):
+   # THIS MIGHT BE USED LATER FOR ADMIN PURPOSES
    """
    Retrieve a list of user objects using pagination.
 

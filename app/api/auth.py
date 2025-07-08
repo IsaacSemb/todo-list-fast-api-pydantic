@@ -1,4 +1,4 @@
-
+# type: ignore
 """
 This started out as user
 
@@ -51,102 +51,97 @@ def register( user_data: schemas.UserCreate, db: Session = Depends(get_db) ) -> 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Retrieve single todo object by id
-@router.get(
-    '/{user_id}',
-    response_model=schemas.UserResponse,
-    summary="Get a user object by ID",
-    description="Retrieves a specific user object by its unique ID. Returns a 404 error if the object does not exist."
+@router.post(
+    '/login',
+    response_model=schemas.Token,
+    summary="This action logins in the user",
+    description="This returns an access token for user to be able to login"
     )
-def get_user(user_id: int, db: Session = Depends(get_db) ) -> Optional[schemas.UserResponse]:
+def login( input: schemas.LoginInput, db: Session = Depends(get_db) ):
     """
-    Retrieve a user object by its ID.
-
-    This delegates the lookup and error handling to the CRUD layer,  
-    which returns the object or raises a 404 error if not found.
-
-    Args:
-        user_id (int): The ID of the user to retrieve.
-        db (Session): Database session dependency.
-
-    Returns:
-        schemas.UserResponse: The requested user object.
+    Handles user login by verifying credentials and generating an authentication token.  
+    Args:  
+        input (LoginInput): The user's login credentials, including email and password.  
+        db (Session, optional): The database session dependency.  
+    Returns:  
+        dict: A dictionary containing the access token (JWT) and the token type ("bearer").  
+    This function is used when a user logs in. It authenticates the user and creates a JWT access token, which is returned along with the token type ("bearer").  
     """
-    return crud.get_user( db, user_id )
+    return crud.login_user(input.email, input.password) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

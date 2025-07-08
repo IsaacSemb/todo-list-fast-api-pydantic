@@ -7,11 +7,7 @@ from .todos import (
 )
 
 from .auth import (
-    create_user,
-    get_user,
-    list_users,
-    update_user,
-    delete_user
+    login_user,
 )
 
 from app.utils.crud_utils import (
