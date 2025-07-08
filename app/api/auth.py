@@ -1,4 +1,22 @@
 
+"""
+This started out as user
+
+And i used standard CRUD like 
+create user
+read users
+update users
+delete user
+
+But from standards
+users is whats drive authentication hemce why its called auth 
+
+and its endpoints and contribution to the codebase is different from standard crud
+
+
+
+"""
+
 from datetime import datetime
 from typing import Any, List, Optional
 from fastapi import APIRouter, Depends, HTTPException
@@ -10,14 +28,14 @@ router = APIRouter()
 
 
 @router.post(
-    '/', 
+    '/register',
     response_model=schemas.UserResponse,
     summary="Create a new user object",
-    description="Creates a new user object using the provided data. Returns the created object with its assigned ID."
+    description="Register a new user object using the provided data to the system. Returns the created object with its assigned ID."
     )
-def create_user( user_data: schemas.UserCreate, db: Session = Depends(get_db) ) -> Any:
+def register( user_data: schemas.UserCreate, db: Session = Depends(get_db) ) -> Any:
     """
-    Create a new user object.
+    Create a new user object to be registered to the system.
 
     This delegates the actual creation logic to the CRUD layer,  
     which handles database insertion and model serialization.
@@ -30,6 +48,80 @@ def create_user( user_data: schemas.UserCreate, db: Session = Depends(get_db) ) 
         schemas.UserResponse: The newly created user object.
     """
     return crud.create_user( db, user_data )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

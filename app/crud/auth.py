@@ -4,6 +4,8 @@ from app import models
 from app import schemas
 from sqlalchemy.orm import Session
 
+from app.core import security
+
 
 def create_user( db: Session, user_data: schemas.UserCreate ) -> schemas.UserInDB:
    """
@@ -12,15 +14,33 @@ def create_user( db: Session, user_data: schemas.UserCreate ) -> schemas.UserInD
    Args:
       db (Session): SQLAlchemy database session.  
       user_data (userCreate): Data to create the user object.  
+   
+   On top of which, this call a helper to hash the password too  
+   before persisting it to the database
 
    Returns:
       models.User: The created and persisted user object.
    """
-   user_object = models.User(**user_data.model_dump())
-   db.add(user_object)
+   
+   # get the password from the user data and hash it
+   hashed_pw = security.hash_password(user_data.password)
+   
+   # create the user db object using the hashed password 
+   db_user = models.User(
+      username=user_data.username,
+      email=user_data.email,
+      hashed_password=hashed_pw
+   )
+   
+   # add the user and commit the changes to the database
+   db.add(db_user)
    db.commit()
-   db.refresh(user_object)
-   return user_object
+   
+   # refresh the database to get freshest changes from the database (eg tokens)
+   db.refresh(db_user)
+   
+   # return the newly created user object
+   return db_user
 
 
 

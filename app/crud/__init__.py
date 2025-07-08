@@ -6,7 +6,7 @@ from .todos import (
     delete_todo
 )
 
-from .users import (
+from .auth import (
     create_user,
     get_user,
     list_users,
